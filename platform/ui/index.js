@@ -29,6 +29,7 @@ export {
 export {
   Button,
   ButtonGroup,
+  ContextMenu,
   DateRange,
   Dialog,
   Dropdown,

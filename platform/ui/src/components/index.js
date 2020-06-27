@@ -1,5 +1,6 @@
 import Button from './Button';
 import ButtonGroup from './ButtonGroup';
+import ContextMenu from './ContextMenu';
 import DateRange from './DateRange';
 import Dialog from './Dialog';
 import Dropdown from './Dropdown';
@@ -54,6 +55,7 @@ import ViewportPane from './ViewportPane';
 export {
   Button,
   ButtonGroup,
+  ContextMenu,
   DateRange,
   Dialog,
   Dropdown,
