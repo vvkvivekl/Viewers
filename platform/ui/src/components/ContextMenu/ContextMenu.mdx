@@ -18,9 +18,30 @@ import { ContextMenu } from '@ohif/ui';
 ```
 
 <Playground>
-  <div className="p-4">
-    <ContextMenu />
-  </div>
+  {() => {
+    const items = [
+      {
+        label: 'Delete measurement',
+        actionType: 'Delete',
+        action: () => alert('Delete'),
+      },
+      {
+        label: 'Relabel',
+        actionType: 'setLabel',
+        action: () => alert('Relabel'),
+      },
+      {
+        label: 'Add Description',
+        actionType: 'setDescription',
+        action: () => alert('Add Description'),
+      },
+    ];
+    return (
+      <div className="p-4">
+        <ContextMenu items={items} />
+      </div>
+    );
+  }}
 </Playground>
 
 ## Properties

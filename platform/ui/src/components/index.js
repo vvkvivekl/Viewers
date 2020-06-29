@@ -42,7 +42,7 @@ import ThumbnailNoImage from './ThumbnailNoImage';
 import ThumbnailTracked from './ThumbnailTracked';
 import ThumbnailList from './ThumbnailList';
 import ToolbarButton from './ToolbarButton';
-import ToolContextMenu from './ToolContextMenu';
+import MeasurementsContextMenu from './MeasurementsContextMenu';
 import ExpandableToolbarButton from './ExpandableToolbarButton';
 import ListMenu from './ListMenu';
 import Tooltip from './Tooltip';
@@ -101,7 +101,7 @@ export {
   ThumbnailTracked,
   ThumbnailList,
   ToolbarButton,
-  ToolContextMenu,
+  MeasurementsContextMenu,
   Tooltip,
   Typography,
   Viewport,
