@@ -45,8 +45,11 @@ const MeasurementTable = ({ data, title, amount, onClick, onEdit }) => {
                   <span className="text-base text-primary-light mb-1">
                     {label}
                   </span>
-                  {displayText.map(line => (
-                    <span className="pl-2 border-l border-primary-light text-base text-white">
+                  {displayText.map((line, index) => (
+                    <span
+                      className="pl-2 border-l border-primary-light text-base text-white"
+                      key={index}
+                    >
                       {line}
                     </span>
                   ))}
