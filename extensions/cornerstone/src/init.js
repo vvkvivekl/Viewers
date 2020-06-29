@@ -1,5 +1,5 @@
 import OHIF from '@ohif/core';
-import { SimpleDialog } from '@ohif/ui';
+import { SimpleDialog, MeasurementsContextMenu } from '@ohif/ui';
 import cornerstone from 'cornerstone-core';
 import csTools from 'cornerstone-tools';
 import merge from 'lodash.merge';
@@ -17,6 +17,89 @@ import { setEnabledElement } from './state';
  */
 export default function init({ servicesManager, configuration }) {
   const { UIDialogService, MeasurementService } = servicesManager.services;
+
+  const onRightClick = event => {
+    if (!UIDialogService) {
+      console.warn('Unable to show dialog; no UI Dialog Service available.');
+      return;
+    }
+
+    UIDialogService.dismiss({ id: 'context-menu' });
+    UIDialogService.create({
+      id: 'context-menu',
+      isDraggable: false,
+      preservePosition: false,
+      defaultPosition: _getDefaultPosition(event.detail),
+      content: MeasurementsContextMenu,
+      contentProps: {
+        eventData: event.detail,
+        onDelete: item => {
+          console.log('TBD: onDelete', item);
+        },
+        onClose: () => UIDialogService.dismiss({ id: 'context-menu' }),
+        onSetLabel: item => {
+          console.log('TBD: onSetLabel', item);
+        },
+        onSetDescription: item => {
+          console.log('TBD: onSetDescription', item);
+        },
+      },
+    });
+  };
+
+  const onTouchPress = event => {
+    if (!UIDialogService) {
+      console.warn('Unable to show dialog; no UI Dialog Service available.');
+      return;
+    }
+
+    UIDialogService.create({
+      eventData: event.detail,
+      content: MeasurementsContextMenu,
+      contentProps: {
+        isTouchEvent: true,
+      },
+    });
+  };
+
+  const onTouchStart = () => resetLabelligAndContextMenu();
+  const onMouseClick = () => resetLabelligAndContextMenu();
+
+  const resetLabelligAndContextMenu = () => {
+    if (!UIDialogService) {
+      console.warn('Unable to show dialog; no UI Dialog Service available.');
+      return;
+    }
+
+    UIDialogService.dismiss({ id: 'context-menu' });
+    UIDialogService.dismiss({ id: 'labelling' });
+  };
+
+  /*
+   * Because click gives us the native "mouse up", buttons will always be `0`
+   * Need to fallback to event.which;
+   *
+   */
+  const handleClick = cornerstoneMouseClickEvent => {
+    const mouseUpEvent = cornerstoneMouseClickEvent.detail.event;
+    const isRightClick = mouseUpEvent.which === 3;
+    const clickMethodHandler = isRightClick ? onRightClick : onMouseClick;
+    clickMethodHandler(cornerstoneMouseClickEvent);
+  };
+
+  function elementEnabledHandler(evt) {
+    const element = evt.detail.element;
+    element.addEventListener(csTools.EVENTS.TOUCH_PRESS, onTouchPress);
+    element.addEventListener(csTools.EVENTS.MOUSE_CLICK, handleClick);
+    element.addEventListener(csTools.EVENTS.TOUCH_START, onTouchStart);
+  }
+
+  function elementDisabledHandler(evt) {
+    const element = evt.detail.element;
+    element.removeEventListener(csTools.EVENTS.TOUCH_PRESS, onTouchPress);
+    element.removeEventListener(csTools.EVENTS.MOUSE_CLICK, handleClick);
+    element.removeEventListener(csTools.EVENTS.TOUCH_START, onTouchStart);
+  }
 
   const callInputDialog = (data, event, callback) => {
     if (UIDialogService) {
@@ -182,6 +265,15 @@ export default function init({ servicesManager, configuration }) {
   csTools.setToolActive('PanMultiTouch', { pointers: 2 }); // TODO: Better error if no options
   csTools.setToolActive('ZoomTouchPinch', {});
   csTools.setToolEnabled('Overlay', {});
+
+  cornerstone.events.addEventListener(
+    cornerstone.EVENTS.ELEMENT_ENABLED,
+    elementEnabledHandler
+  );
+  cornerstone.events.addEventListener(
+    cornerstone.EVENTS.ELEMENT_DISABLED,
+    elementDisabledHandler
+  );
 }
 
 const _initMeasurementService = measurementService => {
@@ -298,6 +390,11 @@ const _connectToolsToMeasurementService = measurementService => {
     enabledElement.addEventListener(removedEvt, removeMeasurement);
   });
 };
+
+const _getDefaultPosition = event => ({
+  x: (event && event.currentPoints.client.x) || 0,
+  y: (event && event.currentPoints.client.y) || 0,
+});
 
 // const {
 //   MEASUREMENT_ADDED,
