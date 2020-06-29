@@ -74,6 +74,7 @@ export {
   ThumbnailTracked,
   ThumbnailList,
   ToolbarButton,
+  ToolContextMenu,
   Tooltip,
   Typography,
   Viewport,
