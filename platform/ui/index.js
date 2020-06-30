@@ -74,7 +74,7 @@ export {
   ThumbnailTracked,
   ThumbnailList,
   ToolbarButton,
-  MeasurementsContextMenu,
+  ContextMenuMeasurements,
   Tooltip,
   Typography,
   Viewport,

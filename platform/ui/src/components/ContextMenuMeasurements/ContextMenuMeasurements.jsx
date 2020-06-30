@@ -2,7 +2,7 @@ import { ContextMenu } from '@ohif/ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const MeasurementsContextMenu = ({
+const ContextMenuMeasurements = ({
   onSetLabel,
   onSetDescription,
   isTouchEvent,
@@ -40,7 +40,7 @@ const MeasurementsContextMenu = ({
   return <ContextMenu items={dropdownItems} />;
 };
 
-MeasurementsContextMenu.propTypes = {
+ContextMenuMeasurements.propTypes = {
   isTouchEvent: PropTypes.bool,
   eventData: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -49,8 +49,8 @@ MeasurementsContextMenu.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-MeasurementsContextMenu.defaultProps = {
+ContextMenuMeasurements.defaultProps = {
   isTouchEvent: false,
 };
 
-export default MeasurementsContextMenu;
+export default ContextMenuMeasurements;

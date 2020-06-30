@@ -1,5 +1,5 @@
 import OHIF from '@ohif/core';
-import { SimpleDialog, MeasurementsContextMenu } from '@ohif/ui';
+import { SimpleDialog, ContextMenuMeasurements } from '@ohif/ui';
 import cornerstone from 'cornerstone-core';
 import csTools from 'cornerstone-tools';
 import merge from 'lodash.merge';
@@ -30,7 +30,7 @@ export default function init({ servicesManager, configuration }) {
       isDraggable: false,
       preservePosition: false,
       defaultPosition: _getDefaultPosition(event.detail),
-      content: MeasurementsContextMenu,
+      content: ContextMenuMeasurements,
       contentProps: {
         eventData: event.detail,
         onDelete: item => {
@@ -55,7 +55,7 @@ export default function init({ servicesManager, configuration }) {
 
     UIDialogService.create({
       eventData: event.detail,
-      content: MeasurementsContextMenu,
+      content: ContextMenuMeasurements,
       contentProps: {
         isTouchEvent: true,
       },
