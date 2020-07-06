@@ -49,7 +49,7 @@ function TrackedCornerstoneViewport({
   const { ToolBarService, DisplaySetService } = servicesManager.services;
   const [trackedMeasurements] = useTrackedMeasurements();
   const [
-    { activeViewportIndex, viewports },
+    { activeViewportIndex, viewports, numCols },
     viewportGridService,
   ] = useViewportGrid();
   // viewportIndex, onSubmit
@@ -297,6 +297,7 @@ function TrackedCornerstoneViewport({
   return (
     <>
       <ViewportActionBar
+        numCols={numCols}
         onDoubleClick={evt => {
           evt.stopPropagation();
           evt.preventDefault();

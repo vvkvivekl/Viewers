@@ -3,13 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon, ButtonGroup, Button, Tooltip } from '@ohif/ui';
 
-const classes = {
-  infoHeader: 'text-base text-primary-light',
-  infoText: 'text-base text-white max-w-48 truncate',
-  firstRow: 'flex flex-col',
-  row: 'flex flex-col ml-4',
-};
-
 const ViewportActionBar = ({
   studyData,
   showNavArrows,
@@ -17,6 +10,7 @@ const ViewportActionBar = ({
   onSeriesChange,
   onHydrationClick,
   onDoubleClick,
+  numCols,
 }) => {
   const [showPatientInfo, setShowPatientInfo] = useState(patientInfoVisibility);
 
@@ -188,6 +182,7 @@ const ViewportActionBar = ({
       )}
       <div className="flex ml-4 mr-2" onClick={onPatientInfoClick}>
         <PatientInfo
+          numCols={numCols}
           isOpen={showPatientInfo}
           patientName={patientName}
           patientSex={patientSex}
@@ -224,11 +219,13 @@ ViewportActionBar.propTypes = {
       scanner: PropTypes.string.isRequired,
     }),
   }).isRequired,
+  numCols: PropTypes.number,
 };
 
 ViewportActionBar.defaultProps = {
   showNavArrows: true,
   showPatientInfo: false,
+  numCols: 1,
 };
 
 function PatientInfo({
@@ -239,8 +236,19 @@ function PatientInfo({
   thickness = 'N/A',
   spacing,
   scanner,
+  numCols,
   isOpen,
 }) {
+  const classes = {
+    infoHeader: 'text-base text-primary-light',
+    infoText: classnames(
+      'text-base text-white truncate',
+      numCols === 1 ? 'max-w-48' : 'max-w-16'
+    ),
+    firstRow: 'flex flex-col',
+    row: 'flex flex-col ml-4',
+  };
+
   return (
     <Tooltip
       isSticky

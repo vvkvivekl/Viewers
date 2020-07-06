@@ -35,7 +35,7 @@ function OHIFCornerstoneSRViewport({
   const [activeDisplaySetData, setActiveDisplaySetData] = useState({});
   const [element, setElement] = useState(null);
   const [isHydrated, setIsHydrated] = useState(displaySet.isHydrated);
-  const { viewports, activeViewportIndex } = viewportGrid;
+  const { viewports, activeViewportIndex, numCols } = viewportGrid;
 
   // Optional hook into tracking extension, if present.
   let trackedMeasurements;
@@ -409,6 +409,7 @@ function OHIFCornerstoneSRViewport({
   return (
     <>
       <ViewportActionBar
+        numCols={numCols}
         onDoubleClick={evt => {
           evt.stopPropagation();
           evt.preventDefault();
