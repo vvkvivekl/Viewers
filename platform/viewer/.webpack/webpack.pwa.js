@@ -5,6 +5,7 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const webpackBase = require('./../../../.webpack/webpack.base.js');
 // ~~ Plugins
+const BundleTracker = require('webpack-bundle-tracker');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -40,7 +41,7 @@ module.exports = (env, argv) => {
     output: {
       path: DIST_DIR,
       filename: isProdBuild ? '[name].bundle.[chunkhash].js' : '[name].js',
-      publicPath: PUBLIC_URL, // Used by HtmlWebPackPlugin for asset prefix
+      publicPath: "http://localhost:8003/platform/viewer/dist/",      //PUBLIC_URL, // Used by HtmlWebPackPlugin for asset prefix
     },
     module: {
       rules: [...extractStyleChunksRule(isProdBuild)],
@@ -94,6 +95,9 @@ module.exports = (env, argv) => {
         // Increase the limit to 4mb:
         // maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
       }),
+      new BundleTracker({
+        filename: '../../webpack-stats-prod.json'
+      }),
     ],
     // https://webpack.js.org/configuration/dev-server/
     devServer: {
@@ -112,7 +116,7 @@ module.exports = (env, argv) => {
       },
     },
   });
-
+  console.log("checking......................")
   if (hasProxy) {
     mergedConfig.devServer.proxy = {};
     mergedConfig.devServer.proxy[PROXY_TARGET] = PROXY_DOMAIN;
